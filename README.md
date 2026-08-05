@@ -1,26 +1,43 @@
 # InvoiceShelf AI Assistant
 
-The official free AI Assistant module for InvoiceShelf 3.x. It provides the in-app assistant, read-only business-data tools, and rich-text generation while keeping AI dependencies out of the core application.
+The official, free AI Assistant module for InvoiceShelf 3.x. It adds an in-app assistant and optional writing tools without putting an AI provider dependency in the core application.
 
-Users supply and fund their own OpenRouter API key. The module itself is free and open source under AGPL-3.0-only.
+The module is `AGPL-3.0-only`. Your administrator supplies and funds the OpenRouter API key; InvoiceShelf does not provide API credits or a shared key.
+
+## Requirements
+
+- InvoiceShelf `>=3.0.0-alpha.2 <4.0.0`
+- Module API `^1.2.0`
+- PHP `^8.4.0`
+- An OpenRouter API key and an account with available provider credit
+
+## Install and configure
+
+1. Sign in as a super administrator and open **Administration → Modules**.
+2. Pair the application with the InvoiceShelf marketplace if it is not already paired, then install and enable **AI Assistant**.
+3. Open **Administration → Settings → AI Assistant**.
+4. Choose OpenRouter, enter the API key, select the models to use, and click **Save settings**.
+5. Click **Test connection** to verify the credentials before enabling it for users.
+6. Turn on **Enable AI Assistant**, then choose the capabilities your team needs:
+   - **Assistant chat** adds the conversational drawer to company pages.
+   - **Editor text generation** adds writing assistance to rich-text editors.
+
+The global administrator's configuration is the default for every company. A company owner can open **Company Settings → AI Assistant**, choose **Use a company-specific AI configuration**, and provide a different provider configuration or models for that company.
+
+## Privacy and access
+
+When someone uses a capability, their prompt and the business data that the selected model requests through the module's read-only tools are sent to OpenRouter and the chosen model provider. The assistant is scoped to the active company and respects the user's InvoiceShelf permissions; it cannot write invoices, expenses, customers, payments, or other business records.
+
+API keys are encrypted at rest and shown as masked values in settings. Enable only the chat and editor features you intend to use, select models appropriate for your privacy requirements, and review OpenRouter's and the selected provider's data practices before enabling the module.
+
+## Disable and uninstall
+
+Disabling the module turns off its UI and routes but retains configuration and conversations. Uninstalling it removes the package. If an administrator also selects **Remove module data**, the module deletes its settings and reverses its migration, removing AI conversations and messages. This data removal is permanent.
 
 ## Development
 
-```bash
-composer install
-pnpm install --frozen-lockfile
-composer run lint
-composer run test
-pnpm run build
-vendor/bin/invoiceshelf-module validate-package .
-```
+The package ships committed files in `dist/` because InvoiceShelf installs immutable packages without running Composer or a JavaScript package manager. See [CONTRIBUTING.md](CONTRIBUTING.md) for the exact local checks, generated-asset workflow, and release process.
 
-Compiled assets in `dist/` are committed because InvoiceShelf installs immutable packages without running Composer or Node package managers.
+## License
 
-## Data lifecycle
-
-Disabling or uninstalling the module normally preserves conversations and configuration. If an administrator explicitly selects **Remove module data**, the cleanup hook removes legacy settings and the reversible migration removes the AI conversation tables.
-
-## Releases
-
-Push an exact SemVer tag matching `module.json`, such as `1.0.0`. The release workflow builds and validates a deterministic signed package before registering it with the InvoiceShelf marketplace.
+The AI Assistant module is licensed under [AGPL-3.0-only](LICENSE).
