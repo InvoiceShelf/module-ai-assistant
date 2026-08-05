@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import type { AxiosInstance } from 'axios'
 import type { RichEditorContext } from '@invoiceshelf/modules/frontend'
+import { AI_API } from '@/api'
 import { errorMessage } from '@/composables/useAiChat'
 
 const props = defineProps<{
@@ -34,7 +35,7 @@ async function generate(): Promise<void> {
   error.value = ''
   generatedText.value = ''
   try {
-    const { data } = await props.client.post<{ text?: string; error?: string; message?: string }>('/ai/generate', {
+    const { data } = await props.client.post<{ text?: string; error?: string; message?: string }>(AI_API.generate, {
       prompt: instruction.value.trim(),
       context: useContext.value ? props.context.getHtml() : undefined,
     })

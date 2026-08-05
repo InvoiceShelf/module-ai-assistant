@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import type { AxiosInstance } from 'axios'
+import { AI_API } from '@/api'
 import { errorMessage } from '@/composables/useAiChat'
 import type { AiConfig, AiDriverOption, CompanyAiConfig } from '@/types/ai'
 
@@ -23,8 +24,8 @@ const testing = ref(false)
 const showKey = ref(false)
 const loadError = ref('')
 
-const endpoint = computed(() => props.scope === 'admin' ? '/ai/config' : '/company/ai/config')
-const testEndpoint = computed(() => props.scope === 'admin' ? '/ai/test' : '/company/ai/test')
+const endpoint = computed(() => props.scope === 'admin' ? AI_API.globalConfig : AI_API.companyConfig)
+const testEndpoint = computed(() => props.scope === 'admin' ? AI_API.globalTest : AI_API.companyTest)
 const isCustom = computed(() => form.use_custom_ai_config === 'YES')
 const aiOn = computed(() => form.ai_enabled === 'YES')
 const selectedDriver = computed(() => drivers.value.find((driver) => driver.value === form.ai_driver))
@@ -45,7 +46,7 @@ async function load(): Promise<void> {
   loadError.value = ''
   try {
     const [{ data: driverData }, { data: configData }] = await Promise.all([
-      props.client.get<{ ai_drivers: AiDriverOption[] }>('/ai/drivers'),
+      props.client.get<{ ai_drivers: AiDriverOption[] }>(AI_API.drivers),
       props.client.get<Partial<CompanyAiConfig>>(endpoint.value),
     ])
     drivers.value = driverData.ai_drivers

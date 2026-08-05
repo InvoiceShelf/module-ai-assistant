@@ -1,6 +1,7 @@
 import { defineComponent, h, ref } from 'vue'
 import type { InvoiceShelfExtensionApi } from '@invoiceshelf/modules/frontend'
 import '../css/module.css'
+import { AI_API } from './api'
 import AiChatOverlay from './components/AiChatOverlay.vue'
 import AiHeaderAction from './components/AiHeaderAction.vue'
 import AiTextAction from './components/AiTextAction.vue'
@@ -21,7 +22,7 @@ window.InvoiceShelf.booting((_app, _router, extensions) => {
 
   const refreshCapabilities = async (adminMode = false): Promise<void> => {
     try {
-      const endpoint = adminMode ? '/ai/admin-capabilities' : '/ai/capabilities'
+      const endpoint = adminMode ? AI_API.adminCapabilities : AI_API.capabilities
       const { data } = await extensions.client.get<AiCapabilities>(endpoint)
       chatEnabled.value = Boolean(data.chat)
       textGenerationEnabled.value = Boolean(data.text_generation)

@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import type { AxiosInstance } from 'axios'
+import { AI_API } from '@/api'
 import type { AiChatMessage, AiConversationSummary } from '@/types/ai'
 
 export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'success', message: string) => void) {
@@ -31,7 +32,7 @@ export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'succe
   async function refreshConversations(): Promise<void> {
     isLoadingConversations.value = true
     try {
-      const { data } = await client.get<{ conversations: AiConversationSummary[] }>('/ai/conversations')
+      const { data } = await client.get<{ conversations: AiConversationSummary[] }>(AI_API.conversations)
       conversations.value = data.conversations
     } catch {
       // Conversation history is supplementary; the chat remains usable offline from it.
@@ -44,7 +45,7 @@ export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'succe
     isLoadingConversation.value = true
     lastError.value = null
     try {
-      const { data } = await client.get<{ conversation: AiConversationSummary; messages: AiChatMessage[] }>(`/ai/conversations/${id}`)
+      const { data } = await client.get<{ conversation: AiConversationSummary; messages: AiChatMessage[] }>(AI_API.conversation(id))
       currentConversationId.value = data.conversation.id
       messages.value = data.messages
     } catch (error: unknown) {
@@ -71,7 +72,7 @@ export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'succe
     messages.value.push(optimistic)
 
     try {
-      const { data } = await client.post<{ conversation: AiConversationSummary; message: AiChatMessage }>('/ai/chat', {
+      const { data } = await client.post<{ conversation: AiConversationSummary; message: AiChatMessage }>(AI_API.chat, {
         conversation_id: currentConversationId.value,
         message: content,
       })
@@ -91,7 +92,7 @@ export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'succe
     const nextTitle = title.trim()
     if (!nextTitle) return
     try {
-      await client.patch(`/ai/conversations/${id}`, { title: nextTitle })
+      await client.patch(AI_API.conversation(id), { title: nextTitle })
       const conversation = conversations.value.find((item) => item.id === id)
       if (conversation) conversation.title = nextTitle
     } catch (error: unknown) {
@@ -101,7 +102,7 @@ export function useAiChat(client: AxiosInstance, notify: (type: 'error' | 'succe
 
   async function deleteConversation(id: number): Promise<void> {
     try {
-      await client.delete(`/ai/conversations/${id}`)
+      await client.delete(AI_API.conversation(id))
       conversations.value = conversations.value.filter((item) => item.id !== id)
       if (currentConversationId.value === id) newConversation()
     } catch (error: unknown) {
