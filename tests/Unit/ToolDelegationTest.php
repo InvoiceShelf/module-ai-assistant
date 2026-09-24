@@ -122,4 +122,14 @@ final class RecordingDataReader implements CompanyDataReader
 
         return [];
     }
+
+    public function companyMembers(int $companyId): array
+    {
+        return [];
+    }
+
+    public function existingInvoiceIds(int $companyId, array $invoiceIds): array
+    {
+        return [];
+    }
 }
