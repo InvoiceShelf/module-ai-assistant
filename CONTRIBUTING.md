@@ -32,7 +32,7 @@ git diff --exit-code -- dist
 
 ## Releases
 
-This repository releases through [the SDK's reusable workflow](https://github.com/InvoiceShelf/modules/blob/3.3.0/.github/workflows/module-release.yml). It is configured for the `stable` channel, so release only final SemVer versions.
+This repository releases through [the SDK's reusable workflow](https://github.com/InvoiceShelf/modules/blob/3.4.0/.github/workflows/module-release.yml). It is configured for the `stable` channel, so release only final SemVer versions.
 
 1. Update the exact release version in `module.json`.
 2. Build and commit any changed `dist/` files, run every check above, and merge the release change to `main`.
@@ -43,4 +43,4 @@ This repository releases through [the SDK's reusable workflow](https://github.co
    git push origin 1.0.1
    ```
 
-The tag triggers `.github/workflows/release.yml`, which calls `InvoiceShelf/modules/.github/workflows/module-release.yml@3.3.0`. CI verifies that the tag and manifest version match, validates and packages the module, signs a deterministic release manifest in the protected `module-release` environment, and submits the package to the InvoiceShelf marketplace. Do not create tags with a `v` prefix or store marketplace/signing secrets in this repository.
+The tag triggers `.github/workflows/release.yml`, which calls `InvoiceShelf/modules/.github/workflows/module-release.yml@3.4.0`. CI verifies that the tag and manifest version match, validates and packages the module, signs a deterministic release manifest in the protected `module-release` environment, and submits the package to the InvoiceShelf marketplace. Do not create tags with a `v` prefix or store marketplace/signing secrets in this repository.
