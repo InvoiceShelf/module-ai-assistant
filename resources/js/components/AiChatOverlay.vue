@@ -91,8 +91,8 @@ function renderedAssistantMessage(content: string | null): string {
 <template>
   <Teleport to="body">
     <button v-if="open" type="button" class="fixed inset-0 z-40 cursor-default bg-black/20" aria-label="Close AI Assistant" @click="close" />
-    <aside v-if="open" class="fixed inset-y-0 right-0 z-50 flex w-full bg-surface shadow-2xl sm:w-[480px] lg:w-[640px]" aria-label="AI Assistant">
-      <section class="hidden w-52 shrink-0 border-r border-line-default bg-surface-secondary sm:flex sm:flex-col">
+    <aside v-if="open" class="fixed inset-y-0 right-0 z-50 flex bg-surface shadow-2xl max-sm:w-full sm:max-lg:w-[480px] lg:w-[640px]" aria-label="AI Assistant">
+      <section class="w-52 shrink-0 border-r border-line-default bg-surface-secondary max-sm:hidden sm:flex sm:flex-col">
         <div class="border-b border-line-default p-3">
           <button type="button" class="w-full rounded-md bg-btn-primary px-3 py-2 text-xs font-medium text-white hover:bg-btn-primary-hover" @click="startNewConversation">
             + New conversation

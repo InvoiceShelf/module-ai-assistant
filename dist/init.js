@@ -2353,9 +2353,9 @@ function Un(e, t) {
 //#region resources/js/components/AiChatOverlay.vue?vue&type=script&setup=true&lang.ts
 var Wn = {
 	key: 1,
-	class: "fixed inset-y-0 right-0 z-50 flex w-full bg-surface shadow-2xl sm:w-[480px] lg:w-[640px]",
+	class: "fixed inset-y-0 right-0 z-50 flex bg-surface shadow-2xl max-sm:w-full sm:max-lg:w-[480px] lg:w-[640px]",
 	"aria-label": "AI Assistant"
-}, Gn = { class: "hidden w-52 shrink-0 border-r border-line-default bg-surface-secondary sm:flex sm:flex-col" }, Kn = { class: "flex-1 overflow-y-auto p-2" }, qn = {
+}, Gn = { class: "w-52 shrink-0 border-r border-line-default bg-surface-secondary max-sm:hidden sm:flex sm:flex-col" }, Kn = { class: "flex-1 overflow-y-auto p-2" }, qn = {
 	key: 0,
 	class: "p-2 text-xs text-muted"
 }, Jn = {
@@ -2577,7 +2577,7 @@ var Wn = {
 			}, [c(n, {
 				name: "SparklesIcon",
 				class: "h-5 w-5 text-primary-500"
-			}), t[1] ||= o("span", { class: "hidden lg:inline" }, "AI", -1)])]);
+			}), t[1] ||= o("span", { class: "max-lg:hidden lg:inline" }, "AI", -1)])]);
 		};
 	}
 }), vr = ["disabled"], yr = {
